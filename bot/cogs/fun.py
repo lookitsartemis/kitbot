@@ -123,5 +123,23 @@ class Fun(commands.Cog):
         
         await interaction.response.send_message(embed=embed)
         
+    @nextcord.slash_command(description="Bonk another user!")
+    async def bonk(self, interaction: Interaction, member: Member = SlashOption(required=True)):
+        if member.bot:
+            await interaction.response.send_message("You can't bonk bots!")
+        elif member == interaction.user:
+            await interaction.response.send_message("You can't bonk yourself!")
+        else:
+            avatar = member.avatar.url
+            
+            embed = nextcord.Embed(
+                title="Bonk",
+                description=f"{interaction.user.mention} bonked {member.mention}!",
+                color=self.color
+            )
+            embed.set_thumbnail(url=avatar)
+            
+            await interaction.response.send_message(embed=embed)
+        
 def setup(bot):
     bot.add_cog(Fun(bot))
