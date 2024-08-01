@@ -1,17 +1,40 @@
 import nextcord
 from nextcord.ext import commands
 from nextcord import Interaction, Member, SlashOption
+import datetime
 
 class Utilities(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.color = 0xfd9d63
+        self.start_time = datetime.datetime.now(datetime.timezone.utc)
 
-    # Ping command 
-    @nextcord.slash_command(description="Replies with bot latency.")
-    async def ping(self, interaction: Interaction):
+
+    # Stats command 
+    @nextcord.slash_command(description="Replies with bot stats.")
+    async def stats(self, interaction: nextcord.Interaction):
+        
+        total_users = sum(guild.member_count for guild in self.bot.guilds)
         latency = int(self.bot.latency * 1000)
-        await interaction.response.send_message(f"Pong! My latency is {latency}ms.")
+        
+        now = datetime.datetime.now(datetime.timezone.utc)
+        uptime_duration = now - self.start_time
+        uptime_seconds = int(uptime_duration.total_seconds())
+        
+        days, remainder = divmod(uptime_seconds, 86400)
+        hours, remainder = divmod(remainder, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        uptime_str = f"{days}d {hours}h {minutes}m {seconds}s"
+        
+        embed = nextcord.Embed(title="Stats", color=self.color)
+        embed.add_field(name="Name", value=self.bot.user.mention, inline=False)
+        embed.add_field(name="ID", value=self.bot.user.id, inline=False)
+        embed.add_field(name="Ping", value=f"{latency}ms", inline=False)
+        embed.add_field(name="Uptime", value=uptime_str, inline=False)
+        embed.add_field(name="Total Users", value=total_users, inline=False)
+        embed.set_thumbnail(url=self.bot.user.avatar)
+                
+        await interaction.response.send_message(embed=embed)
         
     # Server command
     @nextcord.slash_command(description="Gets server information.")
