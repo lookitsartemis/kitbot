@@ -83,6 +83,7 @@ class Utilities(commands.Cog):
 
         await interaction.response.send_message(embed=embed)
 
+    # User command
     @nextcord.slash_command(description="Gets user information.")
     async def user(self, interaction: Interaction, member: Member = None):
         
@@ -136,6 +137,7 @@ class Utilities(commands.Cog):
         
         await interaction.response.send_message(embed=embed)
     
+    # Avatar command
     @nextcord.slash_command(description="Gets user's avatar.")
     async def avatar(self, interaction: Interaction, member: Member = None):
         
