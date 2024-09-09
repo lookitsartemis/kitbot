@@ -1,8 +1,8 @@
 # Kitbot
 
-A cool bot for Kitsun's Discord server :3 (Made with Discord.js!!!)
+A cool bot for Kitsun's Discord server :3 (Made with Nextcord!!!)
 
-Made by @lyravox
+Made by @lvlupprogrammer
 
 ## Documentation
 
